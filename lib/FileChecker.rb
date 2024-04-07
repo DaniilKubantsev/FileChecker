@@ -4,5 +4,15 @@ require_relative "FileChecker/version"
 
 module FileChecker
   class Error < StandardError; end
-  # Your code goes here...
+  
+  class FileChecker
+    def is_png?()
+      #TODO
+    end
+
+    def is_pdf?()
+      #TODO
+    end
+  end
+
 end
