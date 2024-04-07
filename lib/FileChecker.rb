@@ -4,6 +4,7 @@ require 'json'
 require_relative "FileChecker/version"
 
 module FileChecker
+
   class Error < StandardError; end
 
   class FileChecker
@@ -45,8 +46,10 @@ module FileChecker
     end
 
     # Leonid Krupnov
-    def xml_file?(file_path)
-      return false unless File.exist?(file_path)
+    def is_xml?(file_path)
+      unless File.exist?(file_path)
+        puts 'file doesnt exist'
+      end
 
       # First line check
       File.open(file_path, "r") do |file|
