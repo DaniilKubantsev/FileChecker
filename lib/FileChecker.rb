@@ -56,5 +56,22 @@ module FileChecker
       end
     end
 
+    # Maxim Simonov
+    def is_txt?(filepath)
+      return false unless File.exist?(filepath)
+
+      begin
+        extension = File.extname(filepath).downcase
+        if extension == '.txt'
+          File.open(filepath, "r") do |file|
+            content = file.read
+            return true
+          end
+        else
+         return false
+       end
+     end
+    end
+
   end
 end
