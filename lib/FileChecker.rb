@@ -4,6 +4,7 @@ require 'json'
 require_relative "FileChecker/version"
 
 module FileChecker
+
   class Error < StandardError; end
 
   class FileChecker
@@ -28,10 +29,13 @@ module FileChecker
         raise e.message
       end
     end
-    
+
     # Leonid Krupnov
     def is_json?(file_path)
+      return false unless File.exist?(file_path)
+
       begin
+        # Parse check
         JSON.parse(File.read(file_path))
         true
       rescue JSON::ParserError => e
@@ -39,6 +43,18 @@ module FileChecker
       end
     end
 
-  end
+    # Leonid Krupnov
+    def is_xml?(file_path)
+      unless File.exist?(file_path)
+        puts 'file doesnt exist'
+      end
 
+      # First line check
+      File.open(file_path, "r") do |file|
+        first_line = file.readline.strip
+        return first_line.start_with?("<?xml")
+      end
+    end
+
+  end
 end
