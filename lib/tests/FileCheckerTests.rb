@@ -8,26 +8,47 @@ class TestFileChecker < Minitest::Test
   end
 
   def test_is_json_valid
-    result = @file_checker.is_json?('/RubyGem/RubyGemProject/lib/tests/example.json')
+    result = @file_checker.is_json?('example.json')
     puts "valid.json is JSON: #{result ? 'valid' : 'invalid'}"
     assert_equal true, result
   end
 
   def test_is_json_invalid
-    result = @file_checker.is_json?('/RubyGem/RubyGemProject/lib/tests/invalid.json')
+    result = @file_checker.is_json?('invalid.json')
     puts "invalid.json is JSON: #{result ? 'valid' : 'invalid'}"
     assert_equal false, result
   end
 
   def test_is_xml_valid
-    result = @file_checker.is_xml?('/RubyGem/RubyGemProject/lib/tests/example.xml')
+    result = @file_checker.is_xml?('example.xml')
     puts "valid.xml is XML: #{result ? 'valid' : 'invalid'}"
     assert_equal true, result
   end
 
   def test_is_xml_invalid
-    result = @file_checker.is_xml?('/RubyGem/RubyGemProject/lib/tests/invalid.xml')
+    result = @file_checker.is_xml?('invalid.xml')
     puts "invalid.xml is XML: #{result ? 'valid' : 'invalid'}"
+    assert_equal false, result
+  end
+
+
+  def test_is_png_valid
+    result = @file_checker.is_png? 'valid.png'
+    assert_equal true, result
+  end
+
+  def test_is_png_invalid
+    result = @file_checker.is_png? 'invalid.png'
+    assert_equal false, result
+  end
+
+  def test_is_pdf_valid
+    result = @file_checker.is_pdf? 'valid.pdf'
+    assert_equal true, result
+  end
+
+  def test_is_pdf_invalid
+    result = @file_checker.is_pdf? 'invalid.pdf'
     assert_equal false, result
   end
 

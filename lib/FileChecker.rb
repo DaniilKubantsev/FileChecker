@@ -10,7 +10,7 @@ module FileChecker
   class FileChecker
 
     # Daniil Kubantsev
-    def self.is_png?(filepath)
+    def is_png?(filepath)
       begin
         text = File.open(filepath,"rb"){ |file| file.read(8) }
         text == "\x89PNG\r\n\x1A\n".b and extencion = File.extname(filepath).delete('.').upcase == 'PNG'
@@ -20,7 +20,7 @@ module FileChecker
     end
 
     # Daniil Kubantsev
-    def self.is_pdf?(filepath)
+    def is_pdf?(filepath)
       begin
         extencion = File.extname(filepath).delete('.').upcase
         first_line = File.open(filepath, "r").readline.slice(1, 3)
