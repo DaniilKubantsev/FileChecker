@@ -73,5 +73,23 @@ module FileChecker
      end
     end
 
+    # Maxim Simonov
+    def is_html?(filepath)
+      return false unless File.exist?(filepath)
+
+      begin
+        extension = File.extname(filepath).downcase
+        if extension == '.html'
+          File.open(filepath, "r") do |file|
+            content = file.read
+            if content.include?("<!DOCTYPE html>") && content.include?("</html>")
+              return true
+            end
+            false
+          end
+        end
+      end
+    end
+
   end
 end
