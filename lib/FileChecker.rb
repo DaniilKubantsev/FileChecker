@@ -9,25 +9,23 @@ module FileChecker
   class FileChecker
 
     # Daniil Kubantsev
-    def is_png?(file_path)
-      # TODO: понять, как сопоставить расширение и содержимое
-      # begin
-      #   extencion = File.extname(path).delete('.').upcase
-      #   first_line = File.open(path, "r").readline
-      #   first_line == extencion
-      # rescue Errno::ENOENT => e
-      #   e.message
-      # end
+    def self.is_png?(filepath)
+      begin
+        text = File.open(filepath,"rb"){ |file| file.read(8) }
+        text == "\x89PNG\r\n\x1A\n".b and extencion = File.extname(filepath).delete('.').upcase == 'PNG'
+      rescue Errno::ENOENT => e
+        raise e.message
+      end
     end
 
     # Daniil Kubantsev
-    def is_pdf?(file_path)
+    def self.is_pdf?(filepath)
       begin
-        extencion = File.extname(path).delete('.').upcase
-        first_line = File.open(path, "r").readline.slice(1, 3)
+        extencion = File.extname(filepath).delete('.').upcase
+        first_line = File.open(filepath, "r").readline.slice(1, 3)
         first_line == extencion
       rescue Errno::ENOENT => e
-        e.message
+        raise e.message
       end
     end
     
