@@ -57,6 +57,11 @@ class TestFileChecker < Minitest::Test
     assert_equal true, result
   end
 
+  def test_is_txt_invalid
+    result = @file_checker.is_txt? 'invalid.txt' 
+    assert_equal false, result
+  end
+
   def test_is_html_valid
     result = @file_checker.is_html? 'valid.html'
     assert_equal true, result
