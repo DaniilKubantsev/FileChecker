@@ -1,0 +1,103 @@
+---лаб 7
+
+--1
+insert into warehouse (id_wh, name, town)
+    values ('C6', 'Склад 4', 'Москва')
+
+select * from warehouse
+
+--2
+insert into goods_wh (id, id_wh, id_goods, quantity)
+values (8,(select id_wh from warehouse where name = 'Склад 4'),(select id_goods from goods where nomenclature = 'Сувенир - гном'),56)
+
+select * from goods_wh
+
+insert into operation
+values (16,(select id_goods from goods where nomenclature = 'Сувенир - гном'),
+(select id_ag from agent where name_ag = 'ОАО Лидер'),
+(select id_wh from warehouse where name = 'Склад 4'),'A',44,1000,'19.02.2003')
+
+select * from operation
+
+--3
+update operation set price = price - 100, quantity = quantity + 10
+where id_goods = (select id_goods from goods where nomenclature = 'Сувенир - гном')
+and id_ag = (select id_ag from agent where name_ag = 'ОАО Лидер')
+and id_wh = (select id_wh from warehouse where name = 'Склад 4')
+
+select * from operation
+
+--4
+update operation
+set price = price + 10
+where id_ag = (select id_ag from agent where name_ag = 'ООО Партнер')
+
+select * from operation
+
+--5
+delete from agent
+where id_ag not in (select id_ag from operation)
+
+select * from agent
+
+--6
+delete from warehouse
+where id_wh not in (select id_wh from goods_wh)
+and id_wh not in (select id_wh from operation)
+
+select * from warehouse
+
+--7
+select nomenclature
+from goods
+where id_goods not in (select id_goods from operation)
+
+--8
+delete from operation 
+where id_goods = (select id_goods from goods where nomenclature = 'Сувенир - гном')
+and id_ag = (select id_ag from agent where name_ag = 'ОАО Лидер')
+and id_wh = (select id_wh from warehouse where name = 'Склад 4')
+
+select a.name_ag
+from agent a
+where singular (select o.id_ag from operation o where o.id_ag = a.id_ag)
+
+--9
+select nomenclature
+from goods
+where id_goods in (select id_goods from operation
+group by id_goods having count(*)>=all(select count(*) from operation group by id_goods))
+
+--10
+select * from operation
+
+select name_ag
+from agent
+where id_ag in (select id_ag from operation where typeop = 'A'
+and id_goods = (select id_goods from goods where nomenclature = 'Папки')
+and price = (select max(price) from operation where typeop = 'A' and id_goods = (select id_goods from goods where nomenclature = 'Папки')))
+
+select name_ag
+from agent
+where id_ag in (select id_ag from operation where typeop = 'A'
+and id_goods = (select id_goods from goods where nomenclature = 'Папки')
+and price >= all(select price from operation where typeop = 'A' and id_goods = (select id_goods from goods where nomenclature = 'Папки')))
+
+--11
+select a.name_ag
+from agent a
+where not singular (select o.id_ag from operation o where o.id_ag = a.id_ag) and
+exists (select o1.id_ag from operation o1 where o1.id_ag = a.id_ag)
+
+--12
+select g.nomenclature
+from goods g
+where singular (select o.id_goods from operation o where g.id_goods = o.id_goods)
+
+--13
+select nomenclature
+from goods
+where id_goods in (select id_goods from operation where typeop = 'A' and
+id_ag = (select id_ag from agent where name_ag = 'Астра')
+group by id_goods having count(*)>=all(select count(*) from operation where  typeop = 'A' and
+id_ag = (select id_ag from agent where name_ag = 'Астра')))

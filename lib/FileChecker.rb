@@ -12,7 +12,7 @@ module FileChecker
     # Daniil Kubantsev
     def is_png?(filepath)
       begin
-        text = File.open(filepath,"rb"){ |file| file.read(8) }
+        text = File.open(filepath, "rb") { |file| file.read(8) }
         text == "\x89PNG\r\n\x1A\n".b and extencion = File.extname(filepath).delete('.').upcase == 'PNG'
       rescue Errno::ENOENT => e
         raise e.message
@@ -68,9 +68,9 @@ module FileChecker
             return true
           end
         else
-         return false
-       end
-     end
+          return false
+        end
+      end
     end
 
     # Maxim Simonov
@@ -91,5 +91,44 @@ module FileChecker
       end
     end
 
+    # Artem Gadjimuradov
+    def is_jpg?(filepath)
+      begin
+        text = File.open(filepath, "rb") { |f| f.read(10) }
+        extencion = file.extname(filepath)
+        expected = "ffd8ffe000104a464946"
+        text.unpack('H*')[0] == expected && extencion == ".jpg"
+      rescue Errno::ENOENT => e
+        raise e.message
+      end
+    end
+
+    # Artem Gadjimuradov
+    def is_bin?(filepath)
+      begin
+        text = File.open(filepath, "rb") { |f| f.read(10) }
+        extencion = file.extname(filepath)
+        expected = "01234"
+        text == expected && extencion == ".bin"
+      rescue Errno::ENOENT => e
+        raise e.message
+      end
+
+      # Fursova Alexsandra
+      def is_docx?(filepath)
+        return false unless File.exist?(filepath)
+
+        begin
+          doc = Docx::Document.open(filepath)
+          doc.paragraphs.each do |paragraph|
+            paragraph.text
+          end
+          true
+        rescue
+          false
+        end
+      end
+    end
   end
 end
+
