@@ -113,22 +113,23 @@ module FileChecker
       rescue Errno::ENOENT => e
         raise e.message
       end
+    end
+
 
       # Fursova Alexsandra
-      def is_docx?(filepath)
+    def is_docx?(filepath)
         return false unless File.exist?(filepath)
-
-        begin
-          doc = Docx::Document.open(filepath)
-          doc.paragraphs.each do |paragraph|
-            paragraph.text
-          end
-          true
-        rescue
-          false
+      begin
+        doc = Docx::Document.open(filepath)
+        doc.paragraphs.each do |paragraph|
+          paragraph.text
         end
+        true
+      rescue
+        false
       end
     end
+    
   end
 end
 
