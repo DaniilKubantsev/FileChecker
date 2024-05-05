@@ -17,8 +17,27 @@ If bundler is not being used to manage dependencies, install the gem by executin
     $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
 
 ## Usage
+Create an instance of file checker class
 
-TODO: Write usage instructions here
+    @file_checker = FileChecker::FileChecker.new
+
+to use the gem you need to call the `is_<file_type>?` methods
+
+    result = @file_checker.is_json?('example.json') #true
+    result = @file_checker.is_json?('invalid.json') #false
+
+## Supported file types
+
+    json
+    png
+    pdf
+    xml
+    txt
+    html
+    jpg
+    bin
+    doxc
+
 
 ## Development
 

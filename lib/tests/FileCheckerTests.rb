@@ -80,7 +80,6 @@ class TestFileChecker < Minitest::Test
   def test_is_docx_invalid
     result = @file_checker.is_docx? 'invalid.docx'
     assert_equal false, result
-
   end
 end
 

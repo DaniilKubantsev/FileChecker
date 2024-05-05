@@ -113,6 +113,7 @@ module FileChecker
       rescue Errno::ENOENT => e
         raise e.message
       end
+<<<<<<< Updated upstream
     end
 
 
@@ -129,6 +130,23 @@ module FileChecker
         false
       end
     end
+=======
+    end
+
+    # Fursova Alexsandra
+    def is_docx?(filepath)
+      return false unless File.exist?(filepath)
+
+      File.open(filepath, "rb") { |file| file.read(4) } == "PK\x03\x04"
+    end
+
+    # Fursova Alexsandra
+    def is_xml?(filepath)
+      return false unless File.exist?(filepath)
+
+      File.open(filepath, "rb") { |file| file.read(2) } == "<?"
+    end
+>>>>>>> Stashed changes
     
   end
 end
